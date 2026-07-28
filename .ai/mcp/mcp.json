@@ -1,0 +1,7 @@
+{
+  "mcpServers": {
+    "steamwebapi": {
+      "url": "https://mcp.steamwebapi.com/mcp"
+    }
+  }
+}
