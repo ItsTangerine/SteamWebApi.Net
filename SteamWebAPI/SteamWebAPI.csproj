@@ -12,6 +12,12 @@
         <UserSecretsId>3690bd62-cb8c-4063-9f53-eb1b1ee42dd3</UserSecretsId>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <PackageId>SteamWebApi.NET</PackageId>
+        <Authors>Tangerine</Authors>
+        <RepositoryUrl>https://github.com/ItsTangerine/SteamWebApi.Net</RepositoryUrl>
+    </PropertyGroup>
+    
     <ItemGroup>
         <PackageReference Include="System.Text.Json" Version="8.0.5" />
         <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.1" />
