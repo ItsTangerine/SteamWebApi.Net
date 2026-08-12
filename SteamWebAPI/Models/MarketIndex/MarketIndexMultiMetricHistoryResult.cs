@@ -6,7 +6,7 @@ namespace SteamWebAPI.Models.MarketIndex;
 /// Multiple metrics' time series in one payload, as returned by
 /// <see cref="SteamWebApiClient.GetMarketIndexMultiMetricHistoryAsync"/> (HTTP 202).
 /// </summary>
-public sealed class MarketIndexMultiMetricHistoryResult
+public sealed class MarketIndexMultiMetricHistoryResult : BaseResponseDto
 {
     /// <summary>Whether the request succeeded.</summary>
     [JsonPropertyName("success")]
@@ -50,7 +50,7 @@ public sealed class MarketIndexMultiMetricHistoryResult
 /// Unlike <see cref="HistoryPoint"/>, this does not carry <c>change</c>/<c>trend</c>/<c>datapoints</c>, per
 /// steamwebapi.com's multi-metric example.
 /// </summary>
-public sealed class HistoryPointShort
+public sealed class HistoryPointShort : BaseResponseDto
 {
     /// <summary>The point's timestamp, as a Unix timestamp in seconds.</summary>
     [JsonPropertyName("ts")]

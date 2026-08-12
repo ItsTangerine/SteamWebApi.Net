@@ -11,7 +11,7 @@ namespace SteamWebAPI.Models.Account;
 /// status. The field names and shapes below are a best-effort inference, not confirmed field names. Verify this
 /// shape against a live call before relying on it.
 /// </remarks>
-public sealed class AccountInfo
+public sealed class AccountInfo : BaseResponseDto
 {
     /// <summary>Whether the request succeeded.</summary>
     [JsonPropertyName("success")]
@@ -32,7 +32,7 @@ public sealed class AccountInfo
 
 /// <summary>The caller's API request usage broken down by rolling window, embedded in an <see cref="AccountInfo"/>.</summary>
 /// <remarks>Inferred shape; field names are not confirmed by steamwebapi.com's documentation. Verify against a live call.</remarks>
-public sealed class AccountUsage
+public sealed class AccountUsage : BaseResponseDto
 {
     /// <summary>Requests made in the current minute.</summary>
     [JsonPropertyName("minute")]
@@ -57,7 +57,7 @@ public sealed class AccountUsage
 
 /// <summary>The caller's subscription plan status, embedded in an <see cref="AccountInfo"/>.</summary>
 /// <remarks>Inferred shape; field names are not confirmed by steamwebapi.com's documentation. Verify against a live call.</remarks>
-public sealed class AccountSubscription
+public sealed class AccountSubscription : BaseResponseDto
 {
     /// <summary>The subscription plan name or status label, e.g. "active", "free".</summary>
     [JsonPropertyName("status")]

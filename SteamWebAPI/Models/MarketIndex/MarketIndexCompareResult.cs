@@ -6,7 +6,7 @@ namespace SteamWebAPI.Models.MarketIndex;
 /// A ranked comparison of segments of one type by a chosen metric, as returned by
 /// <see cref="SteamWebApiClient.GetMarketIndexCompareAsync"/>.
 /// </summary>
-public sealed class MarketIndexCompareResult
+public sealed class MarketIndexCompareResult : BaseResponseDto
 {
     /// <summary>Whether the request succeeded.</summary>
     [JsonPropertyName("success")]
@@ -34,7 +34,7 @@ public sealed class MarketIndexCompareResult
 }
 
 /// <summary>A single segment's ranking, embedded in a <see cref="MarketIndexCompareResult"/>.</summary>
-public sealed class SegmentComparison
+public sealed class SegmentComparison : BaseResponseDto
 {
     /// <summary>The segment key, e.g. "knife".</summary>
     [JsonPropertyName("key")]

@@ -6,7 +6,7 @@ namespace SteamWebAPI.Models.MarketPrices;
 /// One item's current prices across all configured third-party markets, as returned by
 /// <see cref="SteamWebApiClient.GetMarketsPricesAsync"/>.
 /// </summary>
-public sealed class ItemMarketPrices
+public sealed class ItemMarketPrices : BaseResponseDto
 {
     /// <summary>The item's Steam Market hash name.</summary>
     [JsonPropertyName("market_hash_name")]
@@ -21,7 +21,7 @@ public sealed class ItemMarketPrices
 }
 
 /// <summary>A single market's current price quote for an item, embedded in an <see cref="ItemMarketPrices"/>'s <see cref="ItemMarketPrices.Prices"/> dictionary.</summary>
-public sealed class MarketPriceQuote
+public sealed class MarketPriceQuote : BaseResponseDto
 {
     /// <summary>The current price on this market.</summary>
     [JsonPropertyName("price")]

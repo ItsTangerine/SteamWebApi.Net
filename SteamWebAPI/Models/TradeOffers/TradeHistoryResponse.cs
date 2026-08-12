@@ -6,7 +6,7 @@ namespace SteamWebAPI.Models.TradeOffers;
 /// The response of <c>POST /steam/api/trade/history</c>, backed by Steam's official
 /// <c>IEconService/GetTradeHistory</c>.
 /// </summary>
-public sealed class TradeHistoryResponse
+public sealed class TradeHistoryResponse : BaseResponseDto
 {
     /// <summary>The current date/time the response was generated, ISO 8601.</summary>
     [JsonPropertyName("datetime")]

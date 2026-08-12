@@ -6,7 +6,7 @@ using SteamWebAPI.Models.Converters;
 namespace SteamWebAPI.Models.Float;
 
 /// <summary>A single stored CS asset row (inventory item or market listing), as returned by <see cref="SteamWebApiClient.SearchFloatAssetsAsync"/>.</summary>
-public sealed class FloatAssetRecord
+public sealed class FloatAssetRecord : BaseResponseDto
 {
     /// <summary>steamwebapi.com's internal short id for this row.</summary>
     [JsonPropertyName("id")]

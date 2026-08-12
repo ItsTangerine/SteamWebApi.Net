@@ -8,7 +8,7 @@ namespace SteamWebAPI.Models.Common;
 /// Only CS2 populates every field; Rust/Dota 2/TF2 items populate a smaller subset (identity and basic Steam pricing
 /// fields only) and leave the CS2-specific fields (wear, float, variants, real-market pricing, tag1-tag7) null.
 /// </summary>
-public sealed class SteamItem
+public sealed class SteamItem : BaseResponseDto
 {
     /// <summary>steamwebapi.com's internal short id for this item.</summary>
     [JsonPropertyName("id")]

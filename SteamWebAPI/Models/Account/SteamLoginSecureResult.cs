@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 namespace SteamWebAPI.Models.Account;
 
 /// <summary>The outcome of a Steam login, as returned by <see cref="SteamWebApiClient.SteamLoginSecureAsync"/>.</summary>
-public sealed class SteamLoginSecureResult
+public sealed class SteamLoginSecureResult : BaseResponseDto
 {
     /// <summary>Whether the login succeeded.</summary>
     [JsonPropertyName("success")]
@@ -19,7 +19,7 @@ public sealed class SteamLoginSecureResult
 }
 
 /// <summary>The session cookies/tokens obtained from a successful Steam login, embedded in a <see cref="SteamLoginSecureResult"/>.</summary>
-public sealed class SteamLoginSecureCookies
+public sealed class SteamLoginSecureCookies : BaseResponseDto
 {
     /// <summary>The <c>steamLoginSecure</c> cookie value.</summary>
     [JsonPropertyName("steamloginsecure")]

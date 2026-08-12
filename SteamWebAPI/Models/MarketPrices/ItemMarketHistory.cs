@@ -7,7 +7,7 @@ namespace SteamWebAPI.Models.MarketPrices;
 /// <see cref="SteamWebApiClient.GetMarketsHistoryAsync"/>. Unlike the Market Index endpoints, steamwebapi.com's
 /// example for this endpoint has no top-level <c>success</c> field.
 /// </summary>
-public sealed class ItemMarketHistory
+public sealed class ItemMarketHistory : BaseResponseDto
 {
     /// <summary>The item's Steam Market hash name.</summary>
     [JsonPropertyName("market_hash_name")]

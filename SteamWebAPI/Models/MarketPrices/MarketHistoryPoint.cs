@@ -7,7 +7,7 @@ namespace SteamWebAPI.Models.MarketPrices;
 /// <see cref="ItemMarketHistory.History"/> dictionary, and also used directly as the (inferred) response element
 /// type for <see cref="SteamWebApiClient.GetMarketHistoryAsync"/>.
 /// </summary>
-public sealed class MarketHistoryPoint
+public sealed class MarketHistoryPoint : BaseResponseDto
 {
     /// <summary>When this price was recorded.</summary>
     [JsonPropertyName("createdat")]

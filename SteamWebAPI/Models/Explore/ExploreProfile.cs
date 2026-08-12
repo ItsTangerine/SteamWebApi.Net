@@ -7,7 +7,7 @@ namespace SteamWebAPI.Models.Explore;
 /// <see cref="SteamWebApiClient.GetExploreProfilesAsync"/>. This is a different shape from
 /// <see cref="Profile.SteamProfile"/> (Steam-native, richer detail) despite overlapping identity/avatar fields.
 /// </summary>
-public sealed class ExploreProfile
+public sealed class ExploreProfile : BaseResponseDto
 {
     /// <summary>The profile's SteamID64.</summary>
     [JsonPropertyName("steamid")]

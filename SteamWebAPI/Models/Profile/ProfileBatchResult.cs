@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 namespace SteamWebAPI.Models.Profile;
 
 /// <summary>The envelope returned by <see cref="SteamWebApiClient.GetProfileBatchAsync"/>.</summary>
-public sealed class ProfileBatchResult
+public sealed class ProfileBatchResult : BaseResponseDto
 {
     /// <summary>The batch response payload.</summary>
     [JsonPropertyName("response")]
@@ -11,7 +11,7 @@ public sealed class ProfileBatchResult
 }
 
 /// <summary>The <c>response</c> payload of a <see cref="ProfileBatchResult"/>.</summary>
-public sealed class ProfileBatchResponse
+public sealed class ProfileBatchResponse : BaseResponseDto
 {
     /// <summary>The requested profiles, in no guaranteed order.</summary>
     [JsonPropertyName("players")]

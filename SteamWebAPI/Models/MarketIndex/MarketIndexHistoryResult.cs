@@ -5,7 +5,7 @@ namespace SteamWebAPI.Models.MarketIndex;
 /// <summary>
 /// A single metric's time series, as returned by <see cref="SteamWebApiClient.GetMarketIndexHistoryAsync"/> (HTTP 200).
 /// </summary>
-public sealed class MarketIndexHistoryResult
+public sealed class MarketIndexHistoryResult : BaseResponseDto
 {
     /// <summary>Whether the request succeeded.</summary>
     [JsonPropertyName("success")]
@@ -53,7 +53,7 @@ public sealed class MarketIndexHistoryResult
 }
 
 /// <summary>A single OHLC (or raw-value) time series point, embedded in a <see cref="MarketIndexHistoryResult"/>.</summary>
-public sealed class HistoryPoint
+public sealed class HistoryPoint : BaseResponseDto
 {
     /// <summary>The point's timestamp, as a Unix timestamp in seconds.</summary>
     [JsonPropertyName("ts")]

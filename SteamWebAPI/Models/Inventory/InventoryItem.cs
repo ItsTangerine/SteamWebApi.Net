@@ -9,7 +9,7 @@ namespace SteamWebAPI.Models.Inventory;
 /// when <c>parse=1</c> (the default). Field population varies by the <c>select</c>/<c>group</c>/<c>with_*</c>
 /// request options, so every field except identity fields is treated as optional.
 /// </summary>
-public sealed class InventoryItem
+public sealed class InventoryItem : BaseResponseDto
 {
     /// <summary>steamwebapi.com's internal short id for this item.</summary>
     [JsonPropertyName("id")]
@@ -281,7 +281,7 @@ public sealed class InventoryItem
 }
 
 /// <summary>Float, paint seed, phase, sticker, and keychain data nested on an <see cref="InventoryItem"/>.</summary>
-public sealed class InventoryFloatInfo
+public sealed class InventoryFloatInfo : BaseResponseDto
 {
     /// <summary>The item's float value.</summary>
     [JsonPropertyName("floatvalue")]
@@ -316,7 +316,7 @@ public sealed class InventoryFloatInfo
 /// This is a different shape from the decoded-certificate <c>FloatSticker</c> and the search-endpoint
 /// <c>FloatAssetSticker</c>/<c>FloatAssetKeychain</c> shapes.
 /// </summary>
-public sealed class InventoryStickerRef
+public sealed class InventoryStickerRef : BaseResponseDto
 {
     /// <summary>The slot this sticker/keychain occupies.</summary>
     [JsonPropertyName("slot")]
@@ -336,7 +336,7 @@ public sealed class InventoryStickerRef
 }
 
 /// <summary>A single third-party market's current offer for an <see cref="InventoryItem"/>, present only when <c>with_prices=1</c> was requested.</summary>
-public sealed class InventoryMarketPrice
+public sealed class InventoryMarketPrice : BaseResponseDto
 {
     /// <summary>The market ident, e.g. "skinport", "buff".</summary>
     [JsonPropertyName("market")]
@@ -356,7 +356,7 @@ public sealed class InventoryMarketPrice
 }
 
 /// <summary>An alternate float/pattern observation for the same skin as an <see cref="InventoryItem"/>.</summary>
-public sealed class InventoryVariant
+public sealed class InventoryVariant : BaseResponseDto
 {
     /// <summary>The float value of this variant.</summary>
     [JsonPropertyName("floatvalue")]

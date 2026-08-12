@@ -4,7 +4,7 @@ using SteamWebAPI.Models.Common;
 namespace SteamWebAPI.Models.Items;
 
 /// <summary>Lightweight CS2 item metadata without pricing, as returned by <see cref="SteamWebApiClient.GetItemsPreviewAsync"/>.</summary>
-public sealed class ItemPreview
+public sealed class ItemPreview : BaseResponseDto
 {
     /// <summary>steamwebapi.com's internal catalog id, e.g. "skin-...".</summary>
     [JsonPropertyName("id")]

@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 namespace SteamWebAPI.Models.Float;
 
 /// <summary>The paginated envelope returned by <see cref="SteamWebApiClient.SearchFloatAssetsAsync"/>.</summary>
-public sealed class FloatAssetSearchResult
+public sealed class FloatAssetSearchResult : BaseResponseDto
 {
     /// <summary>The request status, e.g. "success".</summary>
     [JsonPropertyName("status")]

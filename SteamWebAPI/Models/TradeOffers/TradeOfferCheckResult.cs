@@ -9,7 +9,7 @@ namespace SteamWebAPI.Models.TradeOffers;
 /// description only and should be verified against a live response. <see cref="Status"/> is left as a plain string
 /// because only a single example value was documented and the full set of possible values is not confirmed.
 /// </remarks>
-public sealed class TradeOfferCheckResult
+public sealed class TradeOfferCheckResult : BaseResponseDto
 {
     /// <summary>The id of the checked trade offer.</summary>
     [JsonPropertyName("tradeofferid")]

@@ -6,7 +6,7 @@ namespace SteamWebAPI.Models.MarketIndex;
 /// <summary>
 /// The CS2 global market index, or a single segment's stats, as returned by <see cref="SteamWebApiClient.GetMarketIndexAsync"/>.
 /// </summary>
-public sealed class MarketIndexResult
+public sealed class MarketIndexResult : BaseResponseDto
 {
     /// <summary>Whether the request succeeded.</summary>
     [JsonPropertyName("success")]

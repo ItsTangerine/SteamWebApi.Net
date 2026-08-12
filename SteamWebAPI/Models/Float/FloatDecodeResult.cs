@@ -5,7 +5,7 @@ using SteamWebAPI.Models.Common;
 namespace SteamWebAPI.Models.Float;
 
 /// <summary>The decoded float/item state produced by <see cref="SteamWebApiClient.DecodeFloatAsync"/>.</summary>
-public sealed class FloatDecodeResult
+public sealed class FloatDecodeResult : BaseResponseDto
 {
     /// <summary>steamwebapi.com's internal hash id for this decode.</summary>
     [JsonPropertyName("id")]
@@ -136,7 +136,7 @@ public sealed class FloatDecodeResult
 /// <see cref="SteamWebApiClient.DecodeFloatAsync"/>. This is a different shape from the inventory endpoints'
 /// sticker/keychain references and from <see cref="FloatAssetSticker"/>/<see cref="FloatAssetKeychain"/>.
 /// </summary>
-public sealed class FloatSticker
+public sealed class FloatSticker : BaseResponseDto
 {
     /// <summary>The sticker's display name.</summary>
     [JsonPropertyName("name")]

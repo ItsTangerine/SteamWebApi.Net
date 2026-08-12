@@ -15,7 +15,7 @@ namespace SteamWebAPI.Models.SteamGuard;
 /// <see cref="AddGuardRequest.MaFileDownload"/> is <c>true</c> — that branch returns a raw file attachment; use
 /// <see cref="SteamWebApiClient.AddGuardDownloadMaFileAsync"/> for it instead.
 /// </remarks>
-public sealed class AddGuardResult
+public sealed class AddGuardResult : BaseResponseDto
 {
     /// <summary>The enrollment state, e.g. <c>"NEED_EMAIL_CODE"</c> or <c>"AWAITING_FINALIZATION"</c>.</summary>
     [JsonPropertyName("state")]

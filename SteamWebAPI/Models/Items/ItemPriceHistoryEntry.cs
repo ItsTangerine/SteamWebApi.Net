@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 namespace SteamWebAPI.Models.Items;
 
 /// <summary>A single daily price point returned by <see cref="SteamWebApiClient.GetItemPriceHistoryAsync"/>.</summary>
-public sealed class ItemPriceHistoryEntry
+public sealed class ItemPriceHistoryEntry : BaseResponseDto
 {
     /// <summary>steamwebapi.com's internal id for this price point.</summary>
     [JsonPropertyName("id")]

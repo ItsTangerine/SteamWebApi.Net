@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 namespace SteamWebAPI.Models.Float;
 
 /// <summary>The generated inspect link, as returned by <see cref="SteamWebApiClient.CreateInspectLinkAsync"/>.</summary>
-public sealed class CreateInspectLinkResult
+public sealed class CreateInspectLinkResult : BaseResponseDto
 {
     /// <summary>The full <c>steam://rungame/...</c> inspect link.</summary>
     [JsonPropertyName("inspectlink")]
@@ -23,7 +23,7 @@ public sealed class CreateInspectLinkResult
 /// example response exemplifies are modeled here; other input fields (e.g. stickers, StatTrak) likely also appear
 /// when set on the request, but their echoed shape isn't documented.
 /// </summary>
-public sealed class CreateInspectLinkDecoded
+public sealed class CreateInspectLinkDecoded : BaseResponseDto
 {
     /// <summary>The weapon/item definition index.</summary>
     [JsonPropertyName("defindex")]

@@ -7,7 +7,7 @@ namespace SteamWebAPI.Models.TradeOffers;
 /// steamwebapi.com does not publish a formal schema for this response; field names are reconstructed from prose
 /// description only and should be verified against a live response.
 /// </remarks>
-public sealed class CreateTradeOfferResult
+public sealed class CreateTradeOfferResult : BaseResponseDto
 {
     /// <summary>Whether the trade offer was created successfully.</summary>
     [JsonPropertyName("success")]

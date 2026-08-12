@@ -14,7 +14,7 @@ namespace SteamWebAPI.Models.MarketPrices;
 /// array; this client always deserializes the payload as a list. Verify this shape against a live call before
 /// relying on it.
 /// </remarks>
-public sealed class MarketPriceListing
+public sealed class MarketPriceListing : BaseResponseDto
 {
     /// <summary>The item's Steam Market hash name.</summary>
     [JsonPropertyName("market_hash_name")]

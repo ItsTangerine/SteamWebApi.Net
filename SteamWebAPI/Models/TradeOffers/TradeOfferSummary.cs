@@ -13,7 +13,7 @@ namespace SteamWebAPI.Models.TradeOffers;
 /// <c>POST /steam/api/trade/check</c>, minus the deeper <c>partner</c> detail) and should be verified against a
 /// live response.
 /// </remarks>
-public sealed class TradeOfferSummary
+public sealed class TradeOfferSummary : BaseResponseDto
 {
     /// <summary>The trade offer id.</summary>
     [JsonPropertyName("tradeofferid")]

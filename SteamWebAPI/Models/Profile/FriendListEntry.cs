@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 namespace SteamWebAPI.Models.Profile;
 
 /// <summary>A single friend entry, as returned by <see cref="SteamWebApiClient.GetFriendListAsync"/>.</summary>
-public sealed class FriendListEntry
+public sealed class FriendListEntry : BaseResponseDto
 {
     /// <summary>The friend's SteamID64.</summary>
     [JsonPropertyName("steamid")]

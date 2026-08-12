@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 namespace SteamWebAPI.Models.Profile;
 
 /// <summary>The escrow/trade-hold status of a Steam trade URL, as returned by <see cref="SteamWebApiClient.GetTradeEligibilityAsync"/>.</summary>
-public sealed class TradeEligibilityResult
+public sealed class TradeEligibilityResult : BaseResponseDto
 {
     /// <summary>Whether the trade URL is well-formed and currently valid.</summary>
     [JsonPropertyName("tradeurlvalid")]

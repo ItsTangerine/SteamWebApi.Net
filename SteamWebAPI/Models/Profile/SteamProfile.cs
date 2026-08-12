@@ -9,7 +9,7 @@ namespace SteamWebAPI.Models.Profile;
 /// <see cref="SteamWebApiClient.GetProfileBatchAsync"/>. This is a different shape from <see cref="Explore.ExploreProfile"/>
 /// (search/leaderboard-oriented) and <see cref="FriendListEntry"/> (minimal presence-oriented).
 /// </summary>
-public sealed class SteamProfile
+public sealed class SteamProfile : BaseResponseDto
 {
     /// <summary>The profile's SteamID64.</summary>
     [JsonPropertyName("steamid")]
@@ -135,10 +135,53 @@ public sealed class SteamProfile
     /// </summary>
     [JsonPropertyName("personastate")]
     public int? PersonaState { get; set; }
+    
+    /// <summary>Whether the profile has a Steam Community trade ban (0/1). Present for full profile responses.</summary>
+    [JsonPropertyName("tradeban")]
+    public int? TradeBan { get; set; }
+
+    /// <summary>A human-readable description of the profile's current presence. Present for full profile responses.</summary>
+    [JsonPropertyName("statemessage")]
+    public string? StateMessage { get; set; }
+
+    /// <summary>The availability state of the profile's friends list. Present for full profile responses.</summary>
+    [JsonPropertyName("friendsstate")]
+    public int? FriendsState { get; set; }
+
+    /// <summary>The number of friends associated with the profile. Present for full profile responses.</summary>
+    [JsonPropertyName("friendscount")]
+    public int? FriendsCount { get; set; }
+
+    /// <summary>The number of games owned by the profile. Present for full profile responses.</summary>
+    [JsonPropertyName("gamescount")]
+    public int? GamesCount { get; set; }
+
+    /// <summary>The number of Steam groups the profile belongs to. Present for full profile responses.</summary>
+    [JsonPropertyName("groupscount")]
+    public int? GroupsCount { get; set; }
+
+    /// <summary>The number of Steam badges earned by the profile. Present for full profile responses.</summary>
+    [JsonPropertyName("badgescount")]
+    public int? BadgesCount { get; set; }
+
+    /// <summary>The number of game bans recorded for the profile. Present for full profile responses.</summary>
+    [JsonPropertyName("gameban")]
+    public int? GameBan { get; set; }
+
+    /// <summary>
+    /// The number of days since the profile's most recent game ban. Present for full profile responses
+    /// and potentially <see langword="null"/> even when requested.
+    /// </summary>
+    [JsonPropertyName("lastbandays")]
+    public int? LastBanDays { get; set; }
+
+    /// <summary>The profile's Steam level. Present for full profile responses.</summary>
+    [JsonPropertyName("level")]
+    public int? Level { get; set; }
 }
 
 /// <summary>One of a <see cref="SteamProfile"/>'s most-played games, with name/icon metadata.</summary>
-public sealed class MostPlayedGame
+public sealed class MostPlayedGame : BaseResponseDto
 {
     /// <summary>The game's display name.</summary>
     [JsonPropertyName("gamename")]
@@ -178,7 +221,7 @@ public sealed class MostPlayedGame
 }
 
 /// <summary>Playtime figures for one of a <see cref="SteamProfile"/>'s most-played games, without name/icon metadata.</summary>
-public sealed class MostPlayedGameTime
+public sealed class MostPlayedGameTime : BaseResponseDto
 {
     /// <summary>The game's Steam app id.</summary>
     [JsonPropertyName("appid")]
@@ -194,7 +237,7 @@ public sealed class MostPlayedGameTime
 }
 
 /// <summary>A Steam group a <see cref="SteamProfile"/> belongs to.</summary>
-public sealed class SteamGroup
+public sealed class SteamGroup : BaseResponseDto
 {
     /// <summary>The group's Steam id.</summary>
     [JsonPropertyName("id")]

@@ -7,7 +7,7 @@ namespace SteamWebAPI.Models.SteamGuard;
 /// steamwebapi.com does not publish a formal schema for this response; field names are reconstructed from prose
 /// description only and should be verified against a live response.
 /// </remarks>
-public sealed class ConfirmationActionResult
+public sealed class ConfirmationActionResult : BaseResponseDto
 {
     /// <summary>The id of the confirmation acted on.</summary>
     [JsonPropertyName("id")]

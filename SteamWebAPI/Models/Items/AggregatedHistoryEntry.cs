@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 namespace SteamWebAPI.Models.Items;
 
 /// <summary>A single day's aggregated worth for the item set passed to <see cref="SteamWebApiClient.GetItemsAggregatedHistoryAsync"/>.</summary>
-public sealed class AggregatedHistoryEntry
+public sealed class AggregatedHistoryEntry : BaseResponseDto
 {
     /// <summary>The combined value of all requested items (including duplicates) on this day.</summary>
     [JsonPropertyName("worth")]

@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 namespace SteamWebAPI.Models.Info;
 
 /// <summary>A single search-input suggestion returned by <see cref="SteamWebApiClient.AutocompleteItemsAsync"/>.</summary>
-public sealed class ItemAutocompleteSuggestion
+public sealed class ItemAutocompleteSuggestion : BaseResponseDto
 {
     /// <summary>The canonical Steam Market hash name.</summary>
     [JsonPropertyName("markethashname")]
