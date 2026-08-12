@@ -209,7 +209,7 @@ public sealed class MostPlayedGame : BaseResponseDto
 
     /// <summary>Playtime in the last 2 weeks, in minutes.</summary>
     [JsonPropertyName("playtimelast2weeks")]
-    public int PlayTimeLast2Weeks { get; set; }
+    public double PlayTimeLast2Weeks { get; set; }
 
     /// <summary>Total all-time playtime, in hours.</summary>
     [JsonPropertyName("hoursonrecord")]
@@ -229,7 +229,7 @@ public sealed class MostPlayedGameTime : BaseResponseDto
 
     /// <summary>Playtime in the last 2 weeks, in minutes.</summary>
     [JsonPropertyName("playtimelast2weeks")]
-    public int PlayTimeLast2Weeks { get; set; }
+    public double PlayTimeLast2Weeks { get; set; }
 
     /// <summary>Total all-time playtime, in hours.</summary>
     [JsonPropertyName("hoursonrecord")]
