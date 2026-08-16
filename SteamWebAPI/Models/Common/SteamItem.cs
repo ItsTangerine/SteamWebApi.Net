@@ -179,6 +179,10 @@ public sealed class SteamItem : BaseResponseDto
     [JsonPropertyName("soldtotal")]
     public int? SoldTotal { get; set; }
 
+    /// <summary>A dollar-value trading-volume metric for this item (price × recent sale activity).</summary>
+    [JsonPropertyName("marketvolume")]
+    public double? MarketVolume { get; set; }
+
     /// <summary>Estimated hours until the next sale, based on recent sale frequency.</summary>
     [JsonPropertyName("hourstosold")]
     public double? HoursToSold { get; set; }
@@ -213,7 +217,7 @@ public sealed class SteamItem : BaseResponseDto
     public string? Rarity { get; set; }
 
     /// <summary>The Steam economy image URL.</summary>
-    [JsonPropertyName("image")]
+    [JsonPropertyName("itemimage")]
     public string? Image { get; set; }
 
     /// <summary>Whether the item can currently be listed on the Steam Market.</summary>
