@@ -213,7 +213,7 @@ public sealed class MostPlayedGame : BaseResponseDto
 
     /// <summary>Total all-time playtime, in hours.</summary>
     [JsonPropertyName("hoursonrecord")]
-    public int HoursOnRecord { get; set; }
+    public double HoursOnRecord { get; set; }
 
     /// <summary>The game's Steam community stats page identifier.</summary>
     [JsonPropertyName("statsname")]
@@ -233,7 +233,7 @@ public sealed class MostPlayedGameTime : BaseResponseDto
 
     /// <summary>Total all-time playtime, in hours.</summary>
     [JsonPropertyName("hoursonrecord")]
-    public int HoursOnRecord { get; set; }
+    public double HoursOnRecord { get; set; }
 }
 
 /// <summary>A Steam group a <see cref="SteamProfile"/> belongs to.</summary>
