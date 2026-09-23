@@ -36,6 +36,8 @@ public sealed partial class SteamWebApiClient
         SetEnumParam(query, "currency", request.Currency);
         SetCsvEnumParam(query, "markets", request.Markets);
         SetFlag(query, "with_preview_items", request.WithPreviewItems);
+        SetFlag(query, "only_new_items", request.OnlyNewItems);
+        SetParam(query, "collection_id", request.CollectionId);
         query["production"] = "1";
 
         return await GetAsync<IReadOnlyList<SteamItem>>("/steam/api/items", query, cancellationToken).ConfigureAwait(false);
@@ -105,10 +107,11 @@ public sealed partial class SteamWebApiClient
     {
         if (request is null)
             throw new ArgumentNullException(nameof(request));
-        if (request.Items is null || request.Items.Count == 0)
+        if (request.Entries is null || request.Entries.Count == 0)
             throw new ArgumentException("At least one item must be specified.", nameof(request));
 
         var query = NewQuery();
+        SetCsvParam(query, "markets", request.Markets);
 
         return await PostAsync<IReadOnlyList<AggregatedHistoryEntry>>("/steam/api/items/history", query, request, cancellationToken).ConfigureAwait(false);
     }
@@ -149,7 +152,14 @@ public sealed partial class SteamWebApiClient
         var query = NewQuery();
         SetEnumParam(query, "groupBy", (PreviewGroupBy?)groupBy);
 
-        return await GetAsync<IReadOnlyList<string>>("/steam/api/items/preview", query, cancellationToken).ConfigureAwait(false);
+        // Numeric groupings (defindex, paintindex) come back as JSON numbers, so read raw elements and stringify.
+        var result = await GetAsync<IReadOnlyList<JsonElement>>("/steam/api/items/preview", query, cancellationToken).ConfigureAwait(false);
+        if (result.IsFailure)
+            return Result<IReadOnlyList<string>>.Failure(result.Error);
+
+        return Result<IReadOnlyList<string>>.Success(result.Value
+            .Select(e => e.ValueKind == JsonValueKind.String ? e.GetString()! : e.GetRawText())
+            .ToList());
     }
 
     /// <summary>

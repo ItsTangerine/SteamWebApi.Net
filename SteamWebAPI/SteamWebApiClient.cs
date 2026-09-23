@@ -2,6 +2,7 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using SteamWebAPI.Models.Common;
 using SteamWebAPI.Results;
 
@@ -14,7 +15,7 @@ namespace SteamWebAPI;
 /// </summary>
 /// <remarks>
 /// Endpoints are grouped into partial class files by feature (Items, Info, Currency, Float, Profile, Inventory,
-/// Explore, MarketIndex, MarketPrices, Account, SteamGuard, TradeOffers, Proxy). This file contains the shared
+/// Explore, MarketIndex, MarketPrices, Apps, Account, SteamGuard, TradeOffers, Proxy). This file contains the shared
 /// HTTP/JSON plumbing they all use.
 /// </remarks>
 public sealed partial class SteamWebApiClient : IDisposable
@@ -30,6 +31,7 @@ public sealed partial class SteamWebApiClient : IDisposable
     internal static readonly JsonSerializerOptions JsonOptions = new()
     {
         PropertyNameCaseInsensitive = true,
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
     };
 
     /// <summary>
@@ -109,6 +111,13 @@ public sealed partial class SteamWebApiClient : IDisposable
     {
         if (value is not null)
             query[key] = value.Value.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    /// <summary>Sets a timestamp query parameter converted to UTC and formatted as <c>yyyy-MM-ddTHH:mm:ssZ</c>.</summary>
+    private static void SetUtcTimestampParam(IDictionary<string, string?> query, string key, DateTimeOffset? value)
+    {
+        if (value is not null)
+            query[key] = value.Value.UtcDateTime.ToString("yyyy-MM-dd'T'HH:mm:ss'Z'", System.Globalization.CultureInfo.InvariantCulture);
     }
 
     private static void SetEnumParam<TEnum>(IDictionary<string, string?> query, string key, TEnum? value)

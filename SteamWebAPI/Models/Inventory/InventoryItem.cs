@@ -278,6 +278,14 @@ public sealed class InventoryItem : BaseResponseDto
     /// </summary>
     [JsonPropertyName("tradableafter")]
     public string? TradableAfter { get; set; }
+
+    /// <summary>Whether the item is under CS2 trade protection.</summary>
+    [JsonPropertyName("tradeprotected")]
+    public bool? TradeProtected { get; set; }
+
+    /// <summary>The remaining trade-protection upper bound in days (0–7), for CS2 items.</summary>
+    [JsonPropertyName("tradeprotectedmaxdays")]
+    public int? TradeProtectedMaxDays { get; set; }
 }
 
 /// <summary>Float, paint seed, phase, sticker, and keychain data nested on an <see cref="InventoryItem"/>.</summary>
@@ -341,6 +349,14 @@ public sealed class InventoryMarketPrice : BaseResponseDto
     /// <summary>The market ident, e.g. "skinport", "buff".</summary>
     [JsonPropertyName("market")]
     public string Market { get; set; } = string.Empty;
+
+    /// <summary>The market ident, e.g. "skinport", "buff". steamwebapi.com's current documentation names this field <c>source</c>.</summary>
+    [JsonPropertyName("source")]
+    public string? Source { get; set; }
+
+    /// <summary>Per-phase prices keyed by phase name (e.g. "Phase 1"), for items with Doppler-style phases.</summary>
+    [JsonPropertyName("variants")]
+    public IReadOnlyDictionary<string, double>? Variants { get; set; }
 
     /// <summary>The lowest current listing price on this market.</summary>
     [JsonPropertyName("price")]

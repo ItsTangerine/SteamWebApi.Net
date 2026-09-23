@@ -23,6 +23,12 @@ public sealed class GetFloatAssetsRequest
     /// <summary>The maximum float value (inclusive).</summary>
     public double? MaxFloat { get; set; }
 
+    /// <summary>
+    /// An exact float lookup, e.g. "0.030868796632". Matches to the precision supplied (± one unit in the last
+    /// decimal place), so it's a string to keep the digits you send.
+    /// </summary>
+    public string? Float { get; set; }
+
     /// <summary>When set, restricts results to (or excludes) StatTrak™ items.</summary>
     public bool? IsStatTrak { get; set; }
 

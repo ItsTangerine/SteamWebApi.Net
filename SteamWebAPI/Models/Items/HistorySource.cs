@@ -5,6 +5,7 @@ using SteamWebAPI.Models.Converters;
 namespace SteamWebAPI.Models.Items;
 
 /// <summary>The price basis used to aggregate history in <see cref="SteamWebApiClient.GetItemsAggregatedHistoryAsync"/>.</summary>
+[Obsolete("steamwebapi.com no longer reads 'source'. Use GetItemsAggregatedHistoryRequest.Markets instead.")]
 [JsonConverter(typeof(JsonStringEnumMemberConverter<HistorySource>))]
 public enum HistorySource
 {

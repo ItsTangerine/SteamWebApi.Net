@@ -51,7 +51,14 @@ public sealed class GetInventoryRequest
     public int? Limit { get; set; }
 
     /// <summary>When true, attempts to include items still within their first 7 days of a trade lock (costs +1 credit).</summary>
+    [Obsolete("Use TradingInventoryMode, which also supports the trading-inventory-only mode.")]
     public bool? TryFirstSevenDaysBlockedItems { get; set; }
+
+    /// <summary>
+    /// CS2 only: whether to read the trading inventory to also return trade-locked items (costs +1 credit). Takes
+    /// precedence over <see cref="TryFirstSevenDaysBlockedItems"/>.
+    /// </summary>
+    public TradingInventoryMode? TradingInventoryMode { get; set; }
 
     /// <summary>Restricts third-party pricing (<c>pricereal</c>) to these markets. Defaults to all markets.</summary>
     public IReadOnlyList<Market>? Markets { get; set; }

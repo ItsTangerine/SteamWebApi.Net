@@ -80,6 +80,41 @@ public class ProfileLiveTests
         Assert.NotEmpty(result.Value.Response.Players);
     }
 
+    [LiveFact(RequiresSteamId = true)]
+    public async Task GetProfileGamesAsync_ReturnsGames()
+    {
+        using var client = TestConfig.CreateClient();
+
+        var result = await client.GetProfileGamesAsync(TestConfig.TestSteamId!);
+
+        Assert.True(result.IsSuccess, result.IsFailure ? result.Error.ToString() : null);
+        Assert.False(string.IsNullOrWhiteSpace(result.Value.SteamId));
+        Assert.NotNull(result.Value.Games);
+    }
+
+    [LiveFact(RequiresSteamId = true)]
+    public async Task GetProfileRiskAsync_ReturnsAssessment()
+    {
+        using var client = TestConfig.CreateClient();
+
+        var result = await client.GetProfileRiskAsync(TestConfig.TestSteamId!);
+
+        Assert.True(result.IsSuccess, result.IsFailure ? result.Error.ToString() : null);
+        Assert.InRange(result.Value.Risk.Score, 0, 100);
+    }
+
+    [LiveFact(RequiresSteamId = true)]
+    public async Task GetProfileTradesAsync_SmallPage_ReturnsHistory()
+    {
+        using var client = TestConfig.CreateClient();
+
+        var result = await client.GetProfileTradesAsync(TestConfig.TestSteamId!, new GetProfileTradesRequest { Limit = 5 });
+
+        Assert.True(result.IsSuccess, result.IsFailure ? result.Error.ToString() : null);
+        Assert.NotNull(result.Value.Data);
+        Assert.True(result.Value.Data.Count <= 5);
+    }
+
     [LiveFact(RequiresTradeUrl = true)]
     public async Task GetTradeEligibilityAsync_ReturnsEligibility()
     {

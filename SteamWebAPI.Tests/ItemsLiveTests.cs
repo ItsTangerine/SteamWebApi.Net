@@ -87,7 +87,7 @@ public class ItemsLiveTests
 
         var result = await client.GetItemsAggregatedHistoryAsync(new GetItemsAggregatedHistoryRequest
         {
-            Items = new[] { KnownItem },
+            Entries = new[] { new AggregatedHistoryItem { MarketHashName = KnownItem } },
         });
 
         Assert.True(result.IsSuccess, result.IsFailure ? result.Error.ToString() : null);

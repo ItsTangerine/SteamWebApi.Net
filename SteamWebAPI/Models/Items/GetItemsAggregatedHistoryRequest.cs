@@ -4,16 +4,34 @@ namespace SteamWebAPI.Models.Items;
 
 /// <summary>
 /// Request body for <see cref="SteamWebApiClient.GetItemsAggregatedHistoryAsync"/>. Costs 1 credit per call
-/// regardless of how many items are listed. Duplicate market hash names in <see cref="Items"/> are counted
-/// separately (e.g. listing the same item twice doubles its contribution to <see cref="AggregatedHistoryEntry.Worth"/>).
+/// regardless of how many items are listed. Duplicate entries in <see cref="Entries"/> are counted separately
+/// (e.g. listing the same item twice doubles its contribution to <see cref="AggregatedHistoryEntry.Worth"/>).
 /// </summary>
 public sealed class GetItemsAggregatedHistoryRequest
 {
-    /// <summary>The market hash names to aggregate. Required; must be non-empty.</summary>
-    [JsonPropertyName("items")]
-    public IReadOnlyList<string> Items { get; set; } = Array.Empty<string>();
+    /// <summary>The market hash names to aggregate. Setting this replaces <see cref="Entries"/>.</summary>
+    [Obsolete("Use Entries, which also supports Doppler phases, paint indexes, and counts.")]
+    [JsonIgnore]
+    public IReadOnlyList<string> Items
+    {
+        get => Entries.Select(e => e.MarketHashName).ToList();
+        set => Entries = value?.Select(name => new AggregatedHistoryItem { MarketHashName = name }).ToList()
+                         ?? (IReadOnlyList<AggregatedHistoryItem>)Array.Empty<AggregatedHistoryItem>();
+    }
 
-    /// <summary>The price basis to use. Defaults to <see cref="HistorySource.Steam"/>.</summary>
+    /// <summary>The items to aggregate. Required; must be non-empty.</summary>
+    [JsonPropertyName("items")]
+    public IReadOnlyList<AggregatedHistoryItem> Entries { get; set; } = Array.Empty<AggregatedHistoryItem>();
+
+    /// <summary>
+    /// The market idents whose lowest positive daily close is used, e.g. "steam", "dmarket", "skinport". "steam" can
+    /// be combined with third-party markets. Defaults to "steam".
+    /// </summary>
+    [JsonIgnore]
+    public IReadOnlyList<string>? Markets { get; set; }
+
+    /// <summary>The price basis to use. steamwebapi.com no longer reads this field.</summary>
+    [Obsolete("steamwebapi.com no longer reads 'source'. Use Markets instead.")]
     [JsonPropertyName("source")]
     public HistorySource? Source { get; set; }
 

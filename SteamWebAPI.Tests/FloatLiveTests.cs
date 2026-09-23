@@ -72,6 +72,21 @@ public class FloatLiveTests
         Assert.Equal((byte)'G', screenshotResult.Value[3]);
     }
 
+    [LiveFact]
+    public async Task FindAssetsAsync_DefIndexAndSeed_ReturnsOneResultPerEntry()
+    {
+        using var client = TestConfig.CreateClient();
+
+        var result = await client.FindAssetsAsync(new FindAssetsRequest
+        {
+            Items = new[] { new AssetLookup { DefIndex = 7, PaintSeed = 915, Ref = "ak-915" } },
+        });
+
+        Assert.True(result.IsSuccess, result.IsFailure ? result.Error.ToString() : null);
+        Assert.Single(result.Value.Data);
+        Assert.Equal("ak-915", result.Value.Data[0].Ref);
+    }
+
     private static CreateInspectLinkRequest SampleInspectLinkRequest() => new()
     {
         DefIndex = 507, // Karambit.

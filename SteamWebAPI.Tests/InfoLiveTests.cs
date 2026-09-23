@@ -147,4 +147,15 @@ public class InfoLiveTests
         Assert.NotEmpty(result.Value);
         Assert.All(result.Value, suggestion => Assert.False(string.IsNullOrWhiteSpace(suggestion.MarketHashName)));
     }
+
+    [LiveFact]
+    public async Task GetPlatformPlayersAsync_DefaultRange_ReturnsJson()
+    {
+        using var client = TestConfig.CreateClient();
+
+        var result = await client.GetPlatformPlayersAsync();
+
+        Assert.True(result.IsSuccess, result.IsFailure ? result.Error.ToString() : null);
+        Assert.NotEqual(default, result.Value.ValueKind);
+    }
 }

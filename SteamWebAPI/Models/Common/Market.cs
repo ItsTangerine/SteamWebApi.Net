@@ -34,6 +34,7 @@ public enum Market
     Waxpeer,
 
     /// <summary>BitSkins.com</summary>
+    [Obsolete("No longer in steamwebapi.com's documented markets list.")]
     [EnumMember(Value = "bitskins")]
     Bitskins,
 

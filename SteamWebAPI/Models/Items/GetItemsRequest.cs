@@ -61,4 +61,13 @@ public sealed class GetItemsRequest
     /// no pricing.
     /// </summary>
     public bool? WithPreviewItems { get; set; }
+
+    /// <summary>
+    /// When true, returns only CS2 skins from the latest collection release wave that aren't fully indexed yet
+    /// (preview fields only, no pricing). Takes precedence over <see cref="WithPreviewItems"/>.
+    /// </summary>
+    public bool? OnlyNewItems { get; set; }
+
+    /// <summary>Narrows <see cref="OnlyNewItems"/> to one collection id from the latest release wave.</summary>
+    public string? CollectionId { get; set; }
 }

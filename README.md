@@ -27,7 +27,7 @@ else
 }
 ```
 
-Every method accepts an optional `CancellationToken` and follows the same `Task<Result<T>>` pattern. Methods are grouped into partial classes by feature (Items, Info, Currency, Float, Profile, Inventory, Explore, MarketIndex, MarketPrices, Account, SteamGuard, TradeOffers, Proxy).
+Every method accepts an optional `CancellationToken` and follows the same `Task<Result<T>>` pattern. Methods are grouped into partial classes by feature (Items, Info, Currency, Float, Profile, Inventory, Explore, MarketIndex, MarketPrices, Apps, Account, SteamGuard, TradeOffers, Proxy).
 
 ## Dependency injection
 

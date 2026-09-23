@@ -150,6 +150,32 @@ public sealed partial class SteamWebApiClient
     }
 
     /// <summary>
+    /// Retrieves how many people are on Steam and how many of them are in a game, with the in-game share, the change
+    /// against yesterday, today's and record peaks, and a history series. See <c>GET /steam/api/info/platform-players</c>.
+    /// </summary>
+    /// <remarks>
+    /// steamwebapi.com does not publish a response schema for this endpoint, so the payload is returned as a raw
+    /// <see cref="JsonElement"/> rather than a typed model.
+    /// </remarks>
+    /// <param name="range">
+    /// The history range. 24h returns every 5-minute reading, 7d and 30d hourly values, and 90d, 1y, and all daily
+    /// values. Defaults to <see cref="PlayerHistoryRange.Hours24"/>.
+    /// </param>
+    /// <param name="noCache">When true, bypasses steamwebapi.com's response cache for this call.</param>
+    /// <param name="cancellationToken">A token to cancel the request.</param>
+    public async Task<Result<JsonElement>> GetPlatformPlayersAsync(
+        PlayerHistoryRange? range = null,
+        bool? noCache = null,
+        CancellationToken cancellationToken = default)
+    {
+        var query = NewQuery();
+        SetEnumParam(query, "range", range);
+        SetFlag(query, "no_cache", noCache);
+
+        return await GetAsync<JsonElement>("/steam/api/info/platform-players", query, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Returns lightweight name+image autocomplete suggestions for a search-input field. Free tier; an API key is
     /// recommended for production use. See <c>GET /steam/api/complete/items</c>.
     /// </summary>

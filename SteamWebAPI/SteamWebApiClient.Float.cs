@@ -7,7 +7,7 @@ public sealed partial class SteamWebApiClient
 {
     /// <summary>
     /// Searches the stored CS asset database (inventory items and market listings) by owner, item, float, sticker,
-    /// and keychain filters, with pagination. See <c>GET /steam/api/float/assets</c>.
+    /// and keychain filters, with pagination. See <c>GET /api/assets</c> (formerly <c>/steam/api/float/assets</c>).
     /// </summary>
     /// <param name="request">Filtering, sorting, and pagination options.</param>
     /// <param name="cancellationToken">A token to cancel the request.</param>
@@ -21,6 +21,7 @@ public sealed partial class SteamWebApiClient
         SetParam(query, "market_hash_name", request.MarketHashName);
         SetParam(query, "def_index", request.DefIndex);
         SetParam(query, "paint_index", request.PaintIndex);
+        SetParam(query, "float", request.Float);
         SetParam(query, "min_float", request.MinFloat);
         SetParam(query, "max_float", request.MaxFloat);
         SetFlag(query, "is_stattrak", request.IsStatTrak);
@@ -44,7 +45,30 @@ public sealed partial class SteamWebApiClient
         SetFlag(query, "with_items", request.WithItems);
         SetFlag(query, "with_profiles", request.WithProfiles);
 
-        return await GetAsync<FloatAssetSearchResult>("/steam/api/float/assets", query, cancellationToken).ConfigureAwait(false);
+        return await GetAsync<FloatAssetSearchResult>("/api/assets", query, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Looks up physical CS2 items by float, definition index, and pattern seed, and returns each match's full
+    /// ownership timeline (previous owners and market listings, oldest first). Costs 1 credit per entry sent.
+    /// See <c>POST /api/assets/find</c>.
+    /// </summary>
+    /// <param name="request">The item identities to look up, and optionally the current owner.</param>
+    /// <param name="cancellationToken">A token to cancel the request.</param>
+    public async Task<Result<FindAssetsResult>> FindAssetsAsync(
+        FindAssetsRequest request,
+        CancellationToken cancellationToken = default)
+    {
+        if (request is null)
+            throw new ArgumentNullException(nameof(request));
+        if (request.Items is null || request.Items.Count == 0)
+            throw new ArgumentException("At least one item must be specified.", nameof(request));
+        if (request.Items.Count > 5000)
+            throw new ArgumentException("At most 5000 items may be looked up in a single call.", nameof(request));
+
+        var query = NewQuery();
+
+        return await PostAsync<FindAssetsResult>("/api/assets/find", query, request, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

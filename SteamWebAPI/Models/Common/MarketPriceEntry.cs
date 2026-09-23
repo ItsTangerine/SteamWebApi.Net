@@ -9,6 +9,14 @@ public sealed class MarketPriceEntry
     [JsonPropertyName("market")]
     public string Market { get; set; } = string.Empty;
 
+    /// <summary>The market ident, e.g. "skinbaron", "buff". steamwebapi.com's current documentation names this field <c>source</c>.</summary>
+    [JsonPropertyName("source")]
+    public string? Source { get; set; }
+
+    /// <summary>Per-phase prices keyed by phase name (e.g. "Phase 1"), for items with Doppler-style phases.</summary>
+    [JsonPropertyName("variants")]
+    public IReadOnlyDictionary<string, double>? Variants { get; set; }
+
     /// <summary>The lowest current listing price on this market.</summary>
     [JsonPropertyName("price")]
     public double Price { get; set; }

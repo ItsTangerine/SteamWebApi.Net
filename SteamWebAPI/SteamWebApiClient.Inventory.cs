@@ -43,7 +43,10 @@ public sealed partial class SteamWebApiClient
         SetParam(query, "trade_url", request.TradeUrl);
         SetParam(query, "offset", request.Offset);
         SetParam(query, "limit", request.Limit);
+#pragma warning disable CS0618 // Legacy TryFirstSevenDaysBlockedItems is still honoured; TradingInventoryMode overrides it.
         SetFlag(query, "try_first_seven_days_blocked_items", request.TryFirstSevenDaysBlockedItems);
+#pragma warning restore CS0618
+        SetEnumParam(query, "try_first_seven_days_blocked_items", request.TradingInventoryMode);
         SetCsvEnumParam(query, "markets", request.Markets);
         SetFlag(query, "with_prices", request.WithPrices);
         SetFlag(query, "with_phase_price", request.WithPhasePrice);

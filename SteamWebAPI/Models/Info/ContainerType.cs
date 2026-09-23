@@ -21,6 +21,7 @@ public enum ContainerType
     Case,
 
     /// <summary>Souvenir/other packages.</summary>
+    [Obsolete("No longer documented by steamwebapi.com, which now accepts only All, Sticker, and Case.")]
     [EnumMember(Value = "package")]
     Package,
 }
