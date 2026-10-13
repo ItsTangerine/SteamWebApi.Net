@@ -57,7 +57,7 @@ public sealed class SteamProfile : BaseResponseDto
 
     /// <summary>The Steam community visibility code (1 = private, 3 = public).</summary>
     [JsonPropertyName("communityvisibilitystate")]
-    public int CommunityVisibilityState { get; set; }
+    public int? CommunityVisibilityState { get; set; }
 
     /// <summary>The Steam profile setup state code.</summary>
     [JsonPropertyName("profilestate")]
