@@ -124,5 +124,7 @@ public class ProfileLiveTests
 
         Assert.True(result.IsSuccess, result.IsFailure ? result.Error.ToString() : null);
         Assert.False(string.IsNullOrWhiteSpace(result.Value.Status));
+        // 'message' is undocumented but returned live; it must land on Message, not in AdditionalData.
+        Assert.True(result.Value.AdditionalData is null || !result.Value.AdditionalData.ContainsKey("message"));
     }
 }

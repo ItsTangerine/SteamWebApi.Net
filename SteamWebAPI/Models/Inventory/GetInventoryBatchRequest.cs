@@ -37,4 +37,10 @@ public sealed class GetInventoryBatchRequest
 
     /// <summary>Restricts third-party pricing (<c>pricereal</c>) to these markets. Defaults to all markets.</summary>
     public IReadOnlyList<Market>? Markets { get; set; }
+
+    /// <summary>
+    /// CS2 only: which inventory contexts to read for each Steam ID (sent as <c>trade_locked</c>). Surcharges apply
+    /// per Steam ID. Defaults to <see cref="InventoryTradeLockedMode.ContextTwoOnly"/>.
+    /// </summary>
+    public InventoryTradeLockedMode? TradeLockedMode { get; set; }
 }

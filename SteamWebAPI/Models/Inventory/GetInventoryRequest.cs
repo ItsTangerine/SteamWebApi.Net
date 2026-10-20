@@ -56,7 +56,8 @@ public sealed class GetInventoryRequest
 
     /// <summary>
     /// CS2 only: whether to read the trading inventory to also return trade-locked items (costs +1 credit). Takes
-    /// precedence over <see cref="TryFirstSevenDaysBlockedItems"/>.
+    /// precedence over <see cref="TryFirstSevenDaysBlockedItems"/>. When enabled without <see cref="TradeLockedMode"/>,
+    /// steamwebapi.com implicitly uses <see cref="InventoryTradeLockedMode.BothRequired"/>.
     /// </summary>
     public TradingInventoryMode? TradingInventoryMode { get; set; }
 
@@ -72,15 +73,20 @@ public sealed class GetInventoryRequest
     /// <summary>Filters items to those whose name contains this text, case-insensitive.</summary>
     public string? Search { get; set; }
 
-    /// <summary>
-    /// When true, shows trade-locked items in the owner's own inventory. Requires <see cref="SteamLoginSecure"/>
-    /// to be set.
-    /// </summary>
+    /// <summary>When true, reads context 16 only; when false, context 2 only.</summary>
+    [Obsolete("Use TradeLockedMode, which also supports the combined-context modes.")]
     public bool? TradeLocked { get; set; }
 
     /// <summary>
-    /// A pagination cursor: the <c>last_assetid</c> value from a previous response's <c>last_assetid</c> header.
-    /// Repeat the call with this value while the response continues to include that header.
+    /// CS2 only: which inventory contexts to read (sent as <c>trade_locked</c>). Takes precedence over
+    /// <see cref="TradeLocked"/>. Defaults to <see cref="InventoryTradeLockedMode.ContextTwoOnly"/>.
+    /// </summary>
+    public InventoryTradeLockedMode? TradeLockedMode { get; set; }
+
+    /// <summary>
+    /// A pagination cursor for inventories larger than one Steam page (at most 2,000 assets): the
+    /// <see cref="InventoryPage.LastAssetId"/> returned by <see cref="SteamWebApiClient.GetInventoryPageAsync"/>.
+    /// Repeat the call with each new value until it is <see langword="null"/>.
     /// </summary>
     public string? StartAssetId { get; set; }
 }

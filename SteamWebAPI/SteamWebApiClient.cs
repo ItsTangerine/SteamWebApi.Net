@@ -15,7 +15,7 @@ namespace SteamWebAPI;
 /// </summary>
 /// <remarks>
 /// Endpoints are grouped into partial class files by feature (Items, Info, Currency, Float, Profile, Inventory,
-/// Explore, MarketIndex, MarketPrices, Apps, Account, SteamGuard, TradeOffers, Proxy). This file contains the shared
+/// Explore, MarketIndex, MarketPrices, Apps, Account, Screenshot, SteamGuard, TradeOffers, Proxy). This file contains the shared
 /// HTTP/JSON plumbing they all use.
 /// </remarks>
 public sealed partial class SteamWebApiClient : IDisposable
@@ -200,12 +200,14 @@ public sealed partial class SteamWebApiClient : IDisposable
     private Task<Result<T>> PutAsync<T>(string path, IDictionary<string, string?> query, object? body, CancellationToken cancellationToken) =>
         SendAsync<T>(HttpMethod.Put, path, query, body, cancellationToken);
 
+    /// <summary>Sends a JSON request; <paramref name="inspectResponse"/> can read the raw response (e.g. headers) before it is disposed.</summary>
     private async Task<Result<T>> SendAsync<T>(
         HttpMethod method,
         string path,
         IDictionary<string, string?> query,
         object? jsonBody,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        Action<HttpResponseMessage>? inspectResponse = null)
     {
         var uri = BuildUri(path, query);
         using var request = new HttpRequestMessage(method, uri);
@@ -232,8 +234,22 @@ public sealed partial class SteamWebApiClient : IDisposable
 
         using (response)
         {
+            inspectResponse?.Invoke(response);
             return await ReadResultAsync<T>(response, path).ConfigureAwait(false);
         }
+    }
+
+    /// <summary>Returns the first value of a response header, or <see langword="null"/> when it is absent or empty.</summary>
+    private static string? GetHeaderValue(HttpResponseMessage response, string name)
+    {
+        if (response.Headers.TryGetValues(name, out var values) ||
+            response.Content.Headers.TryGetValues(name, out values))
+        {
+            var value = values.FirstOrDefault();
+            return string.IsNullOrWhiteSpace(value) ? null : value;
+        }
+
+        return null;
     }
 
     /// <summary>Issues a raw GET request and returns the response body as bytes, for binary endpoints (e.g. float screenshots).</summary>
@@ -331,7 +347,7 @@ public sealed partial class SteamWebApiClient : IDisposable
         try
         {
             var error = JsonSerializer.Deserialize<SteamWebApiError>(content, JsonOptions);
-            return error?.ErrorMessage;
+            return error?.ErrorMessage ?? error?.Message;
         }
         catch (JsonException)
         {

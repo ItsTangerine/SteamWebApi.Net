@@ -61,7 +61,9 @@ public class FloatLiveTests
         var createResult = await client.CreateInspectLinkAsync(SampleInspectLinkRequest());
         Assert.True(createResult.IsSuccess, createResult.IsFailure ? createResult.Error.ToString() : null);
 
+#pragma warning disable CS0618 // Still covered while the undocumented legacy route keeps responding.
         var screenshotResult = await client.GetFloatScreenshotAsync(createResult.Value.InspectLink);
+#pragma warning restore CS0618
 
         Assert.True(screenshotResult.IsSuccess, screenshotResult.IsFailure ? screenshotResult.Error.ToString() : null);
         Assert.NotEmpty(screenshotResult.Value);

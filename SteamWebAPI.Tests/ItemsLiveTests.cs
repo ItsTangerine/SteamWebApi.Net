@@ -22,7 +22,12 @@ public class ItemsLiveTests
 
         Assert.True(result.IsSuccess, result.IsFailure ? result.Error.ToString() : null);
         Assert.NotEmpty(result.Value);
-        Assert.All(result.Value, item => Assert.False(string.IsNullOrWhiteSpace(item.MarketHashName)));
+        Assert.All(result.Value, item =>
+        {
+            Assert.False(string.IsNullOrWhiteSpace(item.MarketHashName));
+            Assert.False(string.IsNullOrWhiteSpace(item.Image));
+            AssertMapped(item.AdditionalData, "itemimage", "image", "marketvolume", "inspectlink", "releasedat");
+        });
     }
 
     [LiveFact]
@@ -54,6 +59,16 @@ public class ItemsLiveTests
         Assert.True(result.IsSuccess, result.IsFailure ? result.Error.ToString() : null);
         Assert.Equal(KnownItem, result.Value.MarketHashName);
         Assert.Equal(Wear.FieldTested, result.Value.Wear);
+        Assert.False(string.IsNullOrWhiteSpace(result.Value.Image));
+        AssertMapped(result.Value.AdditionalData, "itemimage", "image", "marketvolume", "inspectlink", "releasedat", "infoprice", "infopricereal");
+    }
+
+    /// <summary>Asserts none of <paramref name="wireNames"/> fell through to <c>AdditionalData</c>, i.e. each is mapped.</summary>
+    private static void AssertMapped(IDictionary<string, System.Text.Json.JsonElement>? additionalData, params string[] wireNames)
+    {
+        if (additionalData is null)
+            return;
+        Assert.Empty(wireNames.Where(additionalData.ContainsKey));
     }
 
     [LiveFact]

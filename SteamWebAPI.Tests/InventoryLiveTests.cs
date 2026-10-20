@@ -49,6 +49,67 @@ public class InventoryLiveTests
             result.IsSuccess || result.Error.Type == ErrorType.SteamApi,
             result.IsFailure ? result.Error.ToString() : null);
         if (result.IsSuccess)
+        {
+            Assert.NotNull(result.Value);
+            // The market ident arrives as 'source'; the obsolete 'market' field is no longer sent.
+            Assert.All(result.Value.SelectMany(item => item.Prices ?? Array.Empty<InventoryMarketPrice>()), price =>
+            {
+                Assert.False(string.IsNullOrWhiteSpace(price.Source));
+                Assert.True(price.AdditionalData is null || !price.AdditionalData.ContainsKey("market"));
+            });
+        }
+    }
+
+    [LiveFact(RequiresSteamId = true)]
+    public async Task GetInventoryPageAsync_FirstPage_ReturnsItemsAndCursorState()
+    {
+        using var client = TestConfig.CreateClient();
+
+        var result = await client.GetInventoryPageAsync(TestConfig.TestSteamId!, new GetInventoryRequest { Limit = 20 });
+
+        Assert.True(
+            result.IsSuccess || result.Error.Type == ErrorType.SteamApi,
+            result.IsFailure ? result.Error.ToString() : null);
+        if (result.IsSuccess)
+        {
+            Assert.NotNull(result.Value.Items);
+            Assert.Equal(result.Value.LastAssetId is not null, result.Value.HasMore);
+        }
+    }
+
+    [LiveFact(RequiresSteamId = true)]
+    public async Task GetInventoryAsync_TradeLockedBothFastReturn_IsAccepted()
+    {
+        using var client = TestConfig.CreateClient();
+
+        // Mode 3 costs +1 credit; a rejected value would come back as a Validation error, not SteamApi.
+        var result = await client.GetInventoryAsync(TestConfig.TestSteamId!, new GetInventoryRequest
+        {
+            State = InventoryState.Active,
+            TradeLockedMode = InventoryTradeLockedMode.BothFastReturn,
+            Limit = 20,
+        });
+
+        Assert.True(
+            result.IsSuccess || result.Error.Type == ErrorType.SteamApi,
+            result.IsFailure ? result.Error.ToString() : null);
+        if (result.IsSuccess)
+            Assert.NotNull(result.Value);
+    }
+
+    [LiveFact(RequiresSteamId = true)]
+    public async Task GetInventoryBatchAsync_ExplicitTradeLockedMode_IsAccepted()
+    {
+        using var client = TestConfig.CreateClient();
+
+        var result = await client.GetInventoryBatchAsync(
+            new[] { TestConfig.TestSteamId! },
+            new GetInventoryBatchRequest { TradeLockedMode = InventoryTradeLockedMode.ContextTwoOnly });
+
+        Assert.True(
+            result.IsSuccess || result.Error.Type == ErrorType.SteamApi,
+            result.IsFailure ? result.Error.ToString() : null);
+        if (result.IsSuccess)
             Assert.NotNull(result.Value);
     }
 

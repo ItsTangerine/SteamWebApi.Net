@@ -334,6 +334,10 @@ public sealed class InventoryStickerRef : BaseResponseDto
     [JsonPropertyName("stickerId")]
     public int StickerId { get; set; }
 
+    /// <summary>The sticker's wear (scrape) value, from 0 (pristine) upward, when present.</summary>
+    [JsonPropertyName("wear")]
+    public double? Wear { get; set; }
+
     /// <summary>The sticker/keychain's display name.</summary>
     [JsonPropertyName("name")]
     public string Name { get; set; } = string.Empty;
@@ -347,10 +351,11 @@ public sealed class InventoryStickerRef : BaseResponseDto
 public sealed class InventoryMarketPrice : BaseResponseDto
 {
     /// <summary>The market ident, e.g. "skinport", "buff".</summary>
+    [Obsolete("steamwebapi.com no longer returns 'market'; the ident is in Source.")]
     [JsonPropertyName("market")]
     public string Market { get; set; } = string.Empty;
 
-    /// <summary>The market ident, e.g. "skinport", "buff". steamwebapi.com's current documentation names this field <c>source</c>.</summary>
+    /// <summary>The market ident, e.g. "skinport", "buff".</summary>
     [JsonPropertyName("source")]
     public string? Source { get; set; }
 

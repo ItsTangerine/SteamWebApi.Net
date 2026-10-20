@@ -10,6 +10,8 @@ public sealed partial class SteamWebApiClient
     /// Fetches a Steam inventory enriched with live prices, float values, stickers, and Doppler phase detection.
     /// See <c>GET /steam/api/inventory</c> with <c>parse=1</c> (the default and only mode this method returns
     /// typed results for; see <see cref="GetInventoryRawAsync"/> for the undocumented <c>parse=0</c> raw mode).
+    /// Returns a single Steam page (at most 2,000 assets); use <see cref="GetInventoryPageAsync"/> to page through
+    /// larger inventories.
     /// </summary>
     /// <param name="steamId">
     /// The inventory owner's steamid/steamid3/steamid64/vanity URL. Required unless
@@ -26,7 +28,42 @@ public sealed partial class SteamWebApiClient
         if (string.IsNullOrWhiteSpace(steamId))
             throw new ArgumentException("Steam ID must not be null or empty.", nameof(steamId));
 
-        request ??= new GetInventoryRequest();
+        var query = BuildInventoryQuery(steamId, request ?? new GetInventoryRequest());
+
+        return await GetAsync<IReadOnlyList<InventoryItem>>("/steam/api/inventory", query, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Fetches one page of an enriched Steam inventory together with the cursor for the next page. Steam returns at
+    /// most 2,000 assets per page; pass <see cref="InventoryPage.LastAssetId"/> as
+    /// <see cref="GetInventoryRequest.StartAssetId"/> and repeat while <see cref="InventoryPage.HasMore"/> is true.
+    /// Each page is a separate request. See <c>GET /steam/api/inventory</c>.
+    /// </summary>
+    /// <param name="steamId">The inventory owner's steamid/steamid3/steamid64/vanity URL. Required.</param>
+    /// <param name="request">Filtering, pricing, and pagination options.</param>
+    /// <param name="cancellationToken">A token to cancel the request.</param>
+    public async Task<Result<InventoryPage>> GetInventoryPageAsync(
+        string steamId,
+        GetInventoryRequest? request = null,
+        CancellationToken cancellationToken = default)
+    {
+        if (string.IsNullOrWhiteSpace(steamId))
+            throw new ArgumentException("Steam ID must not be null or empty.", nameof(steamId));
+
+        var query = BuildInventoryQuery(steamId, request ?? new GetInventoryRequest());
+
+        string? lastAssetId = null;
+        var result = await SendAsync<IReadOnlyList<InventoryItem>>(
+            HttpMethod.Get, "/steam/api/inventory", query, null, cancellationToken,
+            response => lastAssetId = GetHeaderValue(response, "last_assetid")).ConfigureAwait(false);
+
+        return result.IsSuccess
+            ? Result<InventoryPage>.Success(new InventoryPage(result.Value, lastAssetId))
+            : Result<InventoryPage>.Failure(result.Error);
+    }
+
+    private Dictionary<string, string?> BuildInventoryQuery(string steamId, GetInventoryRequest request)
+    {
         var query = NewQuery();
         query["steam_id"] = steamId;
         SetEnumParam(query, "state", request.State);
@@ -43,19 +80,19 @@ public sealed partial class SteamWebApiClient
         SetParam(query, "trade_url", request.TradeUrl);
         SetParam(query, "offset", request.Offset);
         SetParam(query, "limit", request.Limit);
-#pragma warning disable CS0618 // Legacy TryFirstSevenDaysBlockedItems is still honoured; TradingInventoryMode overrides it.
+#pragma warning disable CS0618 // Legacy TryFirstSevenDaysBlockedItems/TradeLocked are still honoured; their replacements override them.
         SetFlag(query, "try_first_seven_days_blocked_items", request.TryFirstSevenDaysBlockedItems);
+        SetFlag(query, "trade_locked", request.TradeLocked);
 #pragma warning restore CS0618
         SetEnumParam(query, "try_first_seven_days_blocked_items", request.TradingInventoryMode);
+        SetEnumParam(query, "trade_locked", request.TradeLockedMode);
         SetCsvEnumParam(query, "markets", request.Markets);
         SetFlag(query, "with_prices", request.WithPrices);
         SetFlag(query, "with_phase_price", request.WithPhasePrice);
         SetParam(query, "search", request.Search);
         query["production"] = "1";
-        SetFlag(query, "trade_locked", request.TradeLocked);
         SetParam(query, "start_assetid", request.StartAssetId);
-
-        return await GetAsync<IReadOnlyList<InventoryItem>>("/steam/api/inventory", query, cancellationToken).ConfigureAwait(false);
+        return query;
     }
 
     /// <summary>
@@ -117,6 +154,7 @@ public sealed partial class SteamWebApiClient
         SetEnumParam(query, "sort", request.Sort);
         SetFlag(query, "group", request.Group);
         SetCsvEnumParam(query, "markets", request.Markets);
+        SetEnumParam(query, "trade_locked", request.TradeLockedMode);
         query["production"] = "1";
 
         return await GetAsync<Dictionary<string, List<InventoryItem>>>("/steam/api/inventory/batch", query, cancellationToken).ConfigureAwait(false);

@@ -18,6 +18,15 @@ public sealed class SteamItem : BaseResponseDto
     [JsonPropertyName("markethashname")]
     public string MarketHashName { get; set; } = string.Empty;
 
+    /// <summary>
+    /// The earliest known release date of the base skin's collection (midnight UTC is a presentation convention, not
+    /// a known release time), or <see langword="null"/> when unknown. Not the release date of a specific
+    /// StatTrak/Souvenir variant or its first Steam listing.
+    /// </summary>
+    [JsonPropertyName("releasedat")]
+    [JsonConverter(typeof(SteamDateWrapperConverter))]
+    public DateTimeOffset? ReleasedAt { get; set; }
+
     /// <summary>A normalized (lowercased, punctuation-stripped) form of <see cref="MarketHashName"/> used for search.</summary>
     [JsonPropertyName("normalizedname")]
     public string? NormalizedName { get; set; }
@@ -45,6 +54,14 @@ public sealed class SteamItem : BaseResponseDto
     /// <summary>Groups this item with its StatTrak/souvenir/wear siblings.</summary>
     [JsonPropertyName("groupid")]
     public string? GroupId { get; set; }
+
+    /// <summary>Disclaimer text about the Steam price fields. Not a numeric value. Sent by <c>GET /steam/api/item</c>.</summary>
+    [JsonPropertyName("infoprice")]
+    public string? InfoPrice { get; set; }
+
+    /// <summary>Disclaimer text about the third-party price fields. Not a numeric value. Sent by <c>GET /steam/api/item</c>.</summary>
+    [JsonPropertyName("infopricereal")]
+    public string? InfoPriceReal { get; set; }
 
     /// <summary>Steam Market lowest current listing price.</summary>
     [JsonPropertyName("pricelatest")]
@@ -216,9 +233,21 @@ public sealed class SteamItem : BaseResponseDto
     [JsonPropertyName("rarity")]
     public string? Rarity { get; set; }
 
-    /// <summary>The Steam economy image URL.</summary>
+    /// <summary>
+    /// The Steam economy image URL. <c>GET /steam/api/items</c> sends it as <c>itemimage</c> and
+    /// <c>GET /steam/api/item</c> as <c>image</c>; either populates this property.
+    /// </summary>
     [JsonPropertyName("itemimage")]
     public string? Image { get; set; }
+
+    /// <summary>Receives the <c>image</c> spelling used by <c>GET /steam/api/item</c> into <see cref="Image"/>.</summary>
+    [JsonInclude]
+    [JsonPropertyName("image")]
+    private string? ImageAlias
+    {
+        get => null;
+        set => Image ??= value;
+    }
 
     /// <summary>Whether the item can currently be listed on the Steam Market.</summary>
     [JsonPropertyName("marketable")]
@@ -260,6 +289,10 @@ public sealed class SteamItem : BaseResponseDto
     /// <summary>The direct Steam Community Market listing URL for this item.</summary>
     [JsonPropertyName("steamurl")]
     public string? SteamUrl { get; set; }
+
+    /// <summary>A CS2 inspect link for this item, when available. Identifies a representative item, not an owned asset.</summary>
+    [JsonPropertyName("inspectlink")]
+    public string? InspectLink { get; set; }
 
     /// <summary>The number of days a freshly-traded copy of this item must wait before it can be listed on the Steam Market.</summary>
     [JsonPropertyName("markettradablerestriction")]

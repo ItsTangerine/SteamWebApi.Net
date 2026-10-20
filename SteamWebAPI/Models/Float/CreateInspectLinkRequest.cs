@@ -140,4 +140,32 @@ public sealed class CreateInspectKeychain
     /// <summary>The keychain's charm pattern.</summary>
     [JsonPropertyName("pattern")]
     public int? Pattern { get; set; }
+
+    /// <summary>The keychain's wear value.</summary>
+    [JsonPropertyName("wear")]
+    public double? Wear { get; set; }
+
+    /// <summary>The keychain's scale.</summary>
+    [JsonPropertyName("scale")]
+    public double? Scale { get; set; }
+
+    /// <summary>The keychain's rotation.</summary>
+    [JsonPropertyName("rotation")]
+    public double? Rotation { get; set; }
+
+    /// <summary>The keychain's tint id.</summary>
+    [JsonPropertyName("tint_id")]
+    public int? TintId { get; set; }
+
+    /// <summary>The keychain's X offset.</summary>
+    [JsonPropertyName("offset_x")]
+    public double? OffsetX { get; set; }
+
+    /// <summary>The keychain's Y offset.</summary>
+    [JsonPropertyName("offset_y")]
+    public double? OffsetY { get; set; }
+
+    /// <summary>The keychain's Z offset.</summary>
+    [JsonPropertyName("offset_z")]
+    public double? OffsetZ { get; set; }
 }

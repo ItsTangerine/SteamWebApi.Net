@@ -98,9 +98,14 @@ public sealed partial class SteamWebApiClient
     /// Renders a PNG image visualizing an item's float info (decoded from its inspect certificate) onto a
     /// customizable background, and returns the raw image bytes. See <c>GET /steam/api/float/screenshot</c>.
     /// </summary>
+    /// <remarks>
+    /// <c>/steam/api/float/screenshot</c> is no longer documented by steamwebapi.com and may stop working without
+    /// notice. Use <see cref="GetScreenshotAsync"/> instead, which returns AVIF rather than PNG.
+    /// </remarks>
     /// <param name="url">The inspect link to render, certificate format only. Required.</param>
     /// <param name="request">Background/logo rendering options.</param>
     /// <param name="cancellationToken">A token to cancel the request.</param>
+    [Obsolete("steamwebapi.com no longer documents /steam/api/float/screenshot. Use GetScreenshotAsync instead.")]
     public async Task<Result<byte[]>> GetFloatScreenshotAsync(
         string url,
         GetFloatScreenshotRequest? request = null,

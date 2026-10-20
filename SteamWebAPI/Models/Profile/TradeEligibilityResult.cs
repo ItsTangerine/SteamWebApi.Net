@@ -24,4 +24,11 @@ public sealed class TradeEligibilityResult : BaseResponseDto
     /// </summary>
     [JsonPropertyName("status")]
     public string Status { get; set; } = string.Empty;
+
+    /// <summary>
+    /// An optional explanatory message accompanying <see cref="Status"/>, or <see langword="null"/> when there is
+    /// nothing to add. Returned by the live API but not documented by steamwebapi.com.
+    /// </summary>
+    [JsonPropertyName("message")]
+    public string? Message { get; set; }
 }
